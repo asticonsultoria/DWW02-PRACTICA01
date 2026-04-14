@@ -18,6 +18,19 @@ jobs:
         with:
           fetch-depth: 0  # Requerido para que Sonar analice bien las ramas y PRs
 
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Compilar backend para generar binarios Java
+        working-directory: backend
+        run: |
+          chmod +x mvnw
+          ./mvnw --batch-mode --no-transfer-progress -DskipTests compile
+
       - name: Ejecutar SonarCloud Scanner
         uses: SonarSource/sonarcloud-github-action@v2.3.0
         env:
