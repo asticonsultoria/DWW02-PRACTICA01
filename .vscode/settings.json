@@ -11,8 +11,8 @@
         ".specify/scripts/powershell/": true
     },
     "sonarlint.connectedMode.project": {
-        "connectionId": "",
-        "projectKey": ""
+        "connectionId": "asticonsultoria",
+        "projectKey": "tu-organizacion_nombre-del-repo"
     }
 }
 
