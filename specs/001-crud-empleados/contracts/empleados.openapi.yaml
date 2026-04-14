@@ -1,0 +1,179 @@
+openapi: 3.0.3
+info:
+  title: API CRUD de Empleados
+  version: 1.0.0
+  description: Contrato de API para gestión de empleados.
+servers:
+  - url: http://localhost:8080
+security:
+  - basicAuth: []
+paths:
+  /api/empleados:
+    get:
+      summary: Listar empleados
+      operationId: listarEmpleados
+      responses:
+        '200':
+          description: Lista de empleados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmpleadoResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    post:
+      summary: Crear empleado
+      operationId: crearEmpleado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmpleadoRequest'
+      responses:
+        '201':
+          description: Empleado creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmpleadoResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '409':
+          description: Conflicto de integridad de datos
+  /api/empleados/{clave}:
+    parameters:
+      - name: clave
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: '^EMP-[0-9]+$'
+    get:
+      summary: Obtener empleado por clave
+      operationId: obtenerEmpleadoPorClave
+      responses:
+        '200':
+          description: Empleado encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmpleadoResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Empleado no encontrado
+    put:
+      summary: Actualizar empleado
+      operationId: actualizarEmpleado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmpleadoUpdateRequest'
+      responses:
+        '200':
+          description: Empleado actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmpleadoResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Empleado no encontrado
+    delete:
+      summary: Eliminar empleado
+      operationId: eliminarEmpleado
+      responses:
+        '204':
+          description: Empleado eliminado
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Empleado no encontrado
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    EmpleadoRequest:
+      type: object
+      required: [nombre, direccion, telefono]
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 100
+        direccion:
+          type: string
+          minLength: 1
+          maxLength: 100
+        telefono:
+          type: string
+          minLength: 1
+          maxLength: 100
+    EmpleadoUpdateRequest:
+      type: object
+      required: [nombre, direccion, telefono]
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 100
+        direccion:
+          type: string
+          minLength: 1
+          maxLength: 100
+        telefono:
+          type: string
+          minLength: 1
+          maxLength: 100
+    EmpleadoResponse:
+      type: object
+      required: [clave, nombre, direccion, telefono]
+      properties:
+        clave:
+          type: string
+          pattern: '^EMP-[0-9]+$'
+        nombre:
+          type: string
+        direccion:
+          type: string
+        telefono:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+  responses:
+    UnauthorizedError:
+      description: Credenciales ausentes o inválidas
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequestError:
+      description: Solicitud inválida
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

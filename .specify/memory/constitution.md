@@ -1,50 +1,109 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: 1.0.0 → 1.1.0
+- Modified principles:
+	- None
+- Added principles:
+	- VI. Angular 21 LTS Frontend in Docker (MANDATORY)
+- Added sections:
+	- None
+- Removed sections:
+	- None
+- Templates requiring updates:
+	- ✅ .specify/templates/plan-template.md
+	- ✅ .specify/templates/spec-template.md
+	- ✅ .specify/templates/tasks-template.md
+	- ✅ .specify/templates/commands/*.md (not present, no update required)
+	- ✅ README.md and docs/quickstart.md (not present, no update required)
+- Follow-up TODOs:
+	- None
+-->
+
+# DSW02-Practica01 Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Spring Boot 3 + Java 17 Baseline (MANDATORY)
+All backend services MUST use Spring Boot 3 and Java 17 as the runtime baseline. New code
+MUST follow layered architecture boundaries (controller, service, repository, model/dto) and
+MUST preserve backward compatibility inside a feature branch unless an explicit migration is
+approved in the specification. Rationale: a fixed platform baseline reduces integration drift
+and keeps build/runtime behavior predictable across local and CI environments.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Basic Authentication by Default
+All HTTP endpoints beyond health checks MUST require HTTP Basic authentication via Spring
+Security. Credentials MUST be externalized through environment variables or secret managers;
+hardcoded credentials are prohibited. Role and access requirements MUST be explicitly stated in
+each feature specification. Rationale: security posture is non-optional and must be enforced
+consistently from the first increment.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. PostgreSQL Persistence with Docker Runtime
+Persistent relational data MUST use PostgreSQL. Local development and integration testing MUST
+run PostgreSQL through Docker (Docker Compose preferred), including reproducible service names,
+ports, and seed/migration execution. Application startup MUST fail fast with explicit error
+messages when database connectivity is unavailable. Rationale: consistent containerized data
+infrastructure minimizes environment-specific bugs and onboarding friction.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Swagger/OpenAPI as Contract Documentation
+Every REST endpoint MUST be represented in OpenAPI and exposed through Swagger UI. API docs MUST
+be updated within the same pull request as endpoint changes, including auth requirements,
+request/response schemas, and error codes. No endpoint is considered complete until it is
+visible and accurate in Swagger. Rationale: API contracts must remain discoverable and
+verifiable for consumers and reviewers.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Quality Gates and Test Discipline
+Every feature MUST include automated tests proportional to risk: unit tests for business logic,
+integration tests for repository and security behavior, and API-level tests for critical flows.
+CI MUST fail on test or build failures; merging with failing quality gates is prohibited.
+Rationale: enforceable quality gates prevent regressions in authentication, persistence, and API
+contracts.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### VI. Angular 21 LTS Frontend in Docker (MANDATORY)
+Any user-facing web frontend in this repository MUST use Angular 21 LTS. The frontend MUST be
+runnable through Docker for local development and integration flows, either as a dedicated
+container or as part of Docker Compose. Frontend container configuration MUST define reproducible
+ports, environment wiring to backend APIs, and production-grade build steps. Rationale: locking
+framework version and container runtime prevents frontend/toolchain drift and ensures consistent
+execution across machines and CI.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+## Technical Standards
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+- Build tooling MUST use Maven Wrapper (`./mvnw`) where available.
+- Database schema changes MUST be versioned through migrations (e.g., Flyway or Liquibase).
+- Runtime configuration MUST come from environment variables or profile-based configuration.
+- Docker artifacts MUST define explicit image tags and non-default credentials for production.
+- Frontend projects MUST use Angular 21 LTS and define a Dockerfile (or Compose service) for
+	deterministic local/CI execution.
+- Sensitive values MUST NOT be committed to source control.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+## Delivery Workflow & Review Gates
+
+1. Specifications MUST define authentication scope, PostgreSQL impact, and Swagger updates.
+2. Plans MUST include a constitution check proving stack, security, DB, and docs alignment.
+3. Tasks MUST include explicit work items for security config, Dockerized Postgres, migrations,
+   and OpenAPI updates.
+4. Pull requests that include frontend scope MUST include evidence of Angular 21 LTS alignment
+	and working Dockerized frontend startup.
+5. Pull requests MUST include evidence of passing tests and an updated Swagger surface.
+6. Reviewer approval MUST reject any change that violates a MUST-level constitutional rule.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+This constitution overrides conflicting local practices for this repository.
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+Amendment procedure:
+1. Propose change with rationale and impacted principles/sections.
+2. Obtain maintainer approval in a tracked pull request.
+3. Update dependent templates and guidance documents in the same change.
+4. Record a Sync Impact Report at the top of this file.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Versioning policy:
+- MAJOR: incompatible governance changes or principle removal/redefinition.
+- MINOR: new principle/section or materially expanded mandatory guidance.
+- PATCH: clarifications, wording, typo fixes, non-semantic refinements.
+
+Compliance review expectations:
+- Every plan and pull request MUST include a constitution compliance check.
+- Violations of MUST statements block merge until resolved or constitution is amended.
+- Compliance evidence (tests, docs, config) MUST be auditable in repository artifacts.
+
+**Version**: 1.1.0 | **Ratified**: 2026-02-25 | **Last Amended**: 2026-03-19
