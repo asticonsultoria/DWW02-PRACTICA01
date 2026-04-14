@@ -23,6 +23,7 @@ description: "Task list template for feature implementation"
 - **Single project**: `src/`, `tests/` at repository root
 - **Web app**: `backend/src/`, `frontend/src/`
 - **Mobile**: `api/src/`, `ios/src/` or `android/src/`
+- **This repository style**: `src/main/java/` for backend and optional `frontend/` for Angular UI
 - Paths shown below assume single project - adjust based on plan.md structure
 
 <!-- 
@@ -49,8 +50,10 @@ description: "Task list template for feature implementation"
 **Purpose**: Project initialization and basic structure
 
 - [ ] T001 Create project structure per implementation plan
-- [ ] T002 Initialize [language] project with [framework] dependencies
-- [ ] T003 [P] Configure linting and formatting tools
+- [ ] T002 Initialize Java 17 + Spring Boot 3 project with Maven Wrapper
+- [ ] T003 [P] Configure code style and static analysis tools
+- [ ] T004 [P] Add OpenAPI/Swagger dependencies and base configuration
+- [ ] T005 [P] If frontend scope exists, initialize Angular 21 LTS workspace in frontend/
 
 ---
 
@@ -62,12 +65,13 @@ description: "Task list template for feature implementation"
 
 Examples of foundational tasks (adjust based on your project):
 
-- [ ] T004 Setup database schema and migrations framework
-- [ ] T005 [P] Implement authentication/authorization framework
-- [ ] T006 [P] Setup API routing and middleware structure
-- [ ] T007 Create base models/entities that all stories depend on
-- [ ] T008 Configure error handling and logging infrastructure
-- [ ] T009 Setup environment configuration management
+- [ ] T005 Setup PostgreSQL Docker Compose service and environment wiring
+- [ ] T006 [P] Configure database migrations (Flyway/Liquibase)
+- [ ] T007 [P] Implement Spring Security with HTTP Basic authentication
+- [ ] T008 [P] Setup API routing, exception handling, and validation
+- [ ] T009 Create base entities/repositories shared by all stories
+- [ ] T010 Configure environment profiles and secret injection strategy
+- [ ] T011 [P] If frontend scope exists, define frontend Dockerfile/Compose service and API endpoint wiring
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -83,17 +87,17 @@ Examples of foundational tasks (adjust based on your project):
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T011 [P] [US1] API contract test for [endpoint] in src/test/java/.../api/[Name]ContractTest.java
+- [ ] T012 [P] [US1] Integration test with PostgreSQL Docker runtime in src/test/java/.../integration/[Name]IntegrationTest.java
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
+- [ ] T013 [P] [US1] Create [Entity1] in src/main/java/.../model/[Entity1].java
+- [ ] T014 [P] [US1] Create [Entity2] in src/main/java/.../model/[Entity2].java
+- [ ] T015 [US1] Implement service logic in src/main/java/.../service/[Service].java (depends on T013, T014)
+- [ ] T016 [US1] Implement REST endpoint in src/main/java/.../controller/[Controller].java
+- [ ] T017 [US1] Update OpenAPI annotations and Swagger docs
+- [ ] T018 [US1] Add validation, exception mapping, and structured logs
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -107,15 +111,15 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
 
-- [ ] T018 [P] [US2] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T019 [P] [US2] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T019 [P] [US2] API contract test for [endpoint] in src/test/java/.../api/[Name]ContractTest.java
+- [ ] T020 [P] [US2] Security integration test (Basic Auth) in src/test/java/.../integration/[Name]SecurityTest.java
 
 ### Implementation for User Story 2
 
-- [ ] T020 [P] [US2] Create [Entity] model in src/models/[entity].py
-- [ ] T021 [US2] Implement [Service] in src/services/[service].py
-- [ ] T022 [US2] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T023 [US2] Integrate with User Story 1 components (if needed)
+- [ ] T021 [P] [US2] Create [Entity] in src/main/java/.../model/[Entity].java
+- [ ] T022 [US2] Implement [Service] in src/main/java/.../service/[Service].java
+- [ ] T023 [US2] Implement [endpoint/feature] in src/main/java/.../controller/[Controller].java
+- [ ] T024 [US2] Integrate with User Story 1 components (if needed)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -129,14 +133,14 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
 
-- [ ] T024 [P] [US3] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T025 [P] [US3] API contract test for [endpoint] in src/test/java/.../api/[Name]ContractTest.java
+- [ ] T026 [P] [US3] Repository integration test with PostgreSQL in src/test/java/.../integration/[Name]RepositoryTest.java
 
 ### Implementation for User Story 3
 
-- [ ] T026 [P] [US3] Create [Entity] model in src/models/[entity].py
-- [ ] T027 [US3] Implement [Service] in src/services/[service].py
-- [ ] T028 [US3] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T027 [P] [US3] Create [Entity] in src/main/java/.../model/[Entity].java
+- [ ] T028 [US3] Implement [Service] in src/main/java/.../service/[Service].java
+- [ ] T029 [US3] Implement [endpoint/feature] in src/main/java/.../controller/[Controller].java
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -153,8 +157,9 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] TXXX [P] Documentation updates in docs/
 - [ ] TXXX Code cleanup and refactoring
 - [ ] TXXX Performance optimization across all stories
-- [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
+- [ ] TXXX [P] Additional unit tests (if requested) in src/test/java/.../unit/
 - [ ] TXXX Security hardening
+- [ ] TXXX Verify Swagger/OpenAPI accuracy against implemented endpoints
 - [ ] TXXX Run quickstart.md validation
 
 ---
@@ -203,8 +208,8 @@ Task: "Contract test for [endpoint] in tests/contract/test_[name].py"
 Task: "Integration test for [user journey] in tests/integration/test_[name].py"
 
 # Launch all models for User Story 1 together:
-Task: "Create [Entity1] model in src/models/[entity1].py"
-Task: "Create [Entity2] model in src/models/[entity2].py"
+Task: "Create [Entity1] in src/main/java/.../model/[Entity1].java"
+Task: "Create [Entity2] in src/main/java/.../model/[Entity2].java"
 ```
 
 ---

@@ -1,0 +1,112 @@
+:root {
+  --bg: #f7f9fc;
+  --surface: #ffffff;
+  --text: #0e1b2f;
+  --muted: #5f6b7a;
+  --primary: #1463ff;
+  --primary-contrast: #ffffff;
+  --danger: #c41e3a;
+  --border: #d6dfeb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 10% 0%, #eef4ff 0%, var(--bg) 50%, #f1f5f8 100%);
+}
+
+.page-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(15, 30, 60, 0.08);
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+input, button {
+  font: inherit;
+}
+
+input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.625rem 0.75rem;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 0.625rem 1rem;
+  background: var(--primary);
+  color: var(--primary-contrast);
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #e6ecf8;
+  color: var(--text);
+}
+
+button.danger {
+  background: var(--danger);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.feedback {
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.feedback.success {
+  background: #e8f8f0;
+  color: #0f5b31;
+}
+
+.feedback.error {
+  background: #feecef;
+  color: #7d1327;
+}
+
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+  }
+}

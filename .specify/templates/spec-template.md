@@ -72,8 +72,10 @@
   Fill them out with the right edge cases.
 -->
 
-- What happens when [boundary condition]?
-- How does system handle [error scenario]?
+- What happens when authentication headers are missing or malformed?
+- How does the system behave when PostgreSQL is unavailable at startup?
+- What is returned when a documented Swagger contract mismatches implementation?
+- If a frontend is included, what happens when the Angular Docker container cannot reach the API?
 
 ## Requirements *(mandatory)*
 
@@ -84,16 +86,28 @@
 
 ### Functional Requirements
 
-- **FR-001**: System MUST [specific capability, e.g., "allow users to create accounts"]
-- **FR-002**: System MUST [specific capability, e.g., "validate email addresses"]  
-- **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
-- **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
-- **FR-005**: System MUST [behavior, e.g., "log all security events"]
+- **FR-001**: System MUST run on Spring Boot 3 with Java 17.
+- **FR-002**: System MUST protect non-public endpoints using HTTP Basic authentication.
+- **FR-003**: Credentials MUST be configurable via environment/profile configuration.
+- **FR-004**: System MUST persist relational data in PostgreSQL.
+- **FR-005**: Local/integration environments MUST provide PostgreSQL through Docker.
+- **FR-006**: System MUST expose and maintain OpenAPI/Swagger documentation for all REST endpoints.
+- **FR-007**: System MUST fail build or review if API contract changes are undocumented.
+- **FR-008**: System MUST include automated tests for security, persistence, and endpoint behavior.
+- **FR-009**: If frontend scope exists, frontend MUST use Angular 21 LTS.
+- **FR-010**: If frontend scope exists, frontend MUST provide Dockerized local runtime (Dockerfile
+  or Docker Compose service) with reproducible ports and backend API wiring.
 
 *Example of marking unclear requirements:*
 
-- **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
-- **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
+- **FR-011**: Basic Auth role model MUST be [NEEDS CLARIFICATION: single role or role-based matrix?]
+- **FR-012**: Database migration tool MUST be [NEEDS CLARIFICATION: Flyway or Liquibase?]
+
+### Security & API Documentation *(mandatory for backend APIs)*
+
+- Document protected vs public endpoints and required credentials.
+- Define authentication failure responses (`401/403`) and error payload shape.
+- Confirm Swagger UI exposure path and OpenAPI versioning approach.
 
 ### Key Entities *(include if feature involves data)*
 
