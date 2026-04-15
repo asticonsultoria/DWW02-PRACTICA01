@@ -1,9 +1,18 @@
 name: Analisis de SonarCloud
 
 on:
-  push:
-    branches:
-      - main  # Cambia esto si tu rama principal tiene otro nombre
+  workflow_run:
+    workflows:
+      - "01-CI"
+    types:
+      - completed
+  workflow_dispatch:
+
+
+#. 01 - CI
+#  push: 
+#    branches:
+#      - main  # Cambia esto si tu rama principal tiene otro nombre
   pull_request:
     types: [opened, synchronize, reopened]
 

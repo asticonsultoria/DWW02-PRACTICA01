@@ -1,4 +1,4 @@
-name: CI
+name: 01-CI
 
 on:
   push:
@@ -9,6 +9,8 @@ on:
     branches:
       - main
       - develop
+  workflow_dispatch:
+
 
 permissions:
   contents: read
