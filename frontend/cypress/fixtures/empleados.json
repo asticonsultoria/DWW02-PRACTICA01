@@ -1,0 +1,14 @@
+{
+  "initial": [],
+  "created": {
+    "clave": "EMP-0002",
+    "nombre": "Luis Perez",
+    "direccion": "Calle Dos 456",
+    "telefono": "600333444"
+  },
+  "updated": {
+    "nombre": "Luis Perez Actualizado",
+    "direccion": "Calle Dos 999",
+    "telefono": "600777888"
+  }
+}

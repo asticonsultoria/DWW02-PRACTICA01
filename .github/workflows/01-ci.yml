@@ -67,3 +67,11 @@ jobs:
           CI: true
           CHROME_BIN: /usr/bin/google-chrome
         run: npm test
+
+      - name: Run frontend e2e tests (Cypress)
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: frontend
+          install: false
+          start: npm start -- --host 0.0.0.0 --port 4200
+          wait-on: 'http://localhost:4200'
