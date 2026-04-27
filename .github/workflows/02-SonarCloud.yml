@@ -1,27 +1,21 @@
-name: Analisis de SonarCloud
+name: 02-SonarCloud
 
 on:
-
-  workflow_run:
-    workflows:
-      - "01-CI"
-    types:
-      - completed
-  workflow_dispatch:
-
-
-#. 01 - CI
-#  push: 
-#    branches:
-#      - main  # Cambia esto si tu rama principal tiene otro nombre
+  push:
+    branches:
+      - main
+      - develop
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
 
 jobs:
   sonarcloud:
     name: SonarCloud Scan
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Descargar el código (Checkout)
         uses: actions/checkout@v4
