@@ -1,0 +1,69 @@
+name: 02-SonarCloud
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  sonarcloud:
+    name: SonarCloud Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el código (Checkout)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Requerido para que Sonar analice bien las ramas y PRs
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+          cache-dependency-path: backend/pom.xml
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Instalar dependencias frontend
+        working-directory: frontend
+        run: npm ci
+
+      - name: Ejecutar tests frontend con cobertura
+        working-directory: frontend
+        env:
+          CI: true
+          CHROME_BIN: /usr/bin/google-chrome
+        run: npm test -- --code-coverage
+
+      - name: Compilar backend para generar binarios Java
+        working-directory: backend
+        run: |
+          chmod +x mvnw
+          ./mvnw --batch-mode --no-transfer-progress -DskipTests compile
+
+      - name: Ejecutar SonarCloud Scanner
+        uses: SonarSource/sonarcloud-github-action@v2.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Lo inyecta GitHub automáticamente
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # El secreto que creaste
+
+      - name: Validar compuerta de calidad (Quality Gate)
+        uses: SonarSource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

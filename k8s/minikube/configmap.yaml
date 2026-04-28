@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: empleados-staging
+data:
+  POSTGRES_DB: empleadosdb
+  API_BASE_URL: ""
